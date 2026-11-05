@@ -1,7 +1,7 @@
 /**
- * Import d'une vidéo d'armoire : extraction d'images (ffmpeg) + reconnaissance des livres par Claude.
- *
- * En ligne de commande :
+ * Initialisation de la base depuis une vidéo d'armoire :
+ * extraction d'images (ffmpeg) + reconnaissance des livres par Claude.
+ * À lancer une fois, en ligne de commande :
  *   npm run import-video -- chemin/video.mp4 [--interval 1.5] [--shelf-hint "Armoire salon"]
  */
 import { execFile } from "node:child_process";
@@ -136,7 +136,6 @@ async function identifyBooks(
 }
 
 export interface ImportOptions {
-  importId?: number | null;
   interval?: number;
   shelfHint?: string | null;
   onProgress?: (progress: number, message: string) => void;
@@ -144,11 +143,11 @@ export interface ImportOptions {
 
 /** Traite la vidéo et insère les livres détectés (statut « à vérifier »). */
 export async function runImport(video: string, opts: ImportOptions = {}) {
-  const { importId = null, interval = 1.5, shelfHint = null } = opts;
+  const { interval = 1.5, shelfHint = null } = opts;
   const progress = opts.onProgress ?? ((p, m) => console.error(`[${(p * 100).toFixed(1).padStart(5)}%] ${m}`));
   const client = new Anthropic();
 
-  const tag = importId ? `import_${importId}` : path.parse(video).name;
+  const tag = path.parse(video).name.replace(/[^\w.-]/g, "_");
   const framesDir = path.join(FRAMES_DIR, tag);
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "recybook-"));
   let frames: string[];
@@ -212,7 +211,7 @@ export async function runImport(video: string, opts: ImportOptions = {}) {
         confidence: book.confidence,
         source_frame: `${tag}/${path.basename(batch[idx])}`,
         status: "a_verifier",
-      }, importId);
+      });
       known.push(`${title} — ${book.author ?? "?"}`);
       added++;
     }

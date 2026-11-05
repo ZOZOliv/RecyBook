@@ -30,17 +30,6 @@ export interface Stats {
   genres: string[];
 }
 
-export interface VideoImport {
-  id: number;
-  filename: string;
-  status: 'en_attente' | 'en_cours' | 'termine' | 'erreur';
-  progress: number;
-  message: string | null;
-  frames: number;
-  books_added: number;
-  created_at: string;
-}
-
 export interface BookFilters {
   q: string;
   status: string;

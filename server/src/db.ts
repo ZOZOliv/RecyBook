@@ -8,7 +8,6 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 export const ROOT = path.resolve(here, "..", "..");
 export const DATA_DIR = path.resolve(process.env.RECYBOOK_DATA ?? path.join(ROOT, "data"));
 export const FRAMES_DIR = path.join(DATA_DIR, "frames");
-export const UPLOADS_DIR = path.join(DATA_DIR, "uploads");
 
 export const BOOK_FIELDS = [
   "title", "author", "publisher", "year", "isbn", "genre", "language",
@@ -56,23 +55,12 @@ CREATE TABLE IF NOT EXISTS books (
     notes        TEXT,
     confidence   REAL,
     source_frame TEXT,
-    import_id    INTEGER,
+    import_id    INTEGER,          -- inutilisé, conservé pour les bases existantes
     norm_key     TEXT,
     created_at   TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_books_norm ON books(norm_key);
-
-CREATE TABLE IF NOT EXISTS imports (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    filename    TEXT NOT NULL,
-    status      TEXT NOT NULL DEFAULT 'en_attente',
-    progress    REAL NOT NULL DEFAULT 0,
-    message     TEXT,
-    frames      INTEGER DEFAULT 0,
-    books_added INTEGER DEFAULT 0,
-    created_at  TEXT NOT NULL DEFAULT (datetime('now'))
-);
 `;
 
 let instance: DatabaseSync | null = null;
@@ -135,7 +123,7 @@ export function toBook(row: Row | undefined): Book | undefined {
 
 type SqlValue = string | number | null;
 
-export function insertBook(data: BookInput, importId: number | null = null): number {
+export function insertBook(data: BookInput): number {
   const cols: string[] = [];
   const values: SqlValue[] = [];
   for (const f of BOOK_FIELDS) {
@@ -144,8 +132,8 @@ export function insertBook(data: BookInput, importId: number | null = null): num
     cols.push(f);
     values.push(f === "is_read" ? (v ? 1 : 0) : (v as SqlValue));
   }
-  cols.push("norm_key", "import_id");
-  values.push(normKey(data.title, data.author), importId);
+  cols.push("norm_key");
+  values.push(normKey(data.title, data.author));
   const res = db()
     .prepare(`INSERT INTO books (${cols.join(", ")}) VALUES (${cols.map(() => "?").join(", ")})`)
     .run(...values);

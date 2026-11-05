@@ -75,7 +75,7 @@
 </div>
 
 @if (!loading() && books().length === 0) {
-  <p class="muted">Aucun livre. Importez la vidéo de votre armoire ou ajoutez un livre.</p>
+  <p class="muted">Aucun livre. Initialisez la base avec <code>npm run seed</code> ou ajoutez un livre.</p>
 }
 
 @if (editing(); as current) {

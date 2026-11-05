@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { Book, BookDraft, BookFilters, Stats, VideoImport } from './models';
+import { Book, BookDraft, BookFilters, Stats } from './models';
 
 /** Accès à l'API REST du serveur Express. */
 @Injectable({ providedIn: 'root' })
@@ -35,14 +35,6 @@ export class ApiService {
 
   stats(): Promise<Stats> {
     return this.call(this.http.get<Stats>('/api/stats'));
-  }
-
-  listImports(): Promise<VideoImport[]> {
-    return this.call(this.http.get<VideoImport[]>('/api/imports'));
-  }
-
-  startImport(form: FormData): Promise<VideoImport> {
-    return this.call(this.http.post<VideoImport>('/api/imports', form));
   }
 
   /** Convertit l'Observable en Promise et extrait le message d'erreur du serveur. */

@@ -2,11 +2,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import express, { type Request, type Response, type NextFunction } from "express";
-import multer from "multer";
 import {
-  BOOK_FIELDS, db, FRAMES_DIR, getBook, insertBook, ROOT, toBook, updateBook, UPLOADS_DIR, type BookInput,
+  BOOK_FIELDS, db, FRAMES_DIR, getBook, insertBook, ROOT, toBook, updateBook, type BookInput,
 } from "./db.js";
-import { runImport } from "./videoImport.js";
 
 const app = express();
 app.use(express.json());
@@ -126,55 +124,6 @@ api.get("/export.csv", (_req, res) => {
   res.setHeader("Content-Type", "text/csv; charset=utf-8");
   res.setHeader("Content-Disposition", "attachment; filename=recybook.csv");
   res.send("﻿" + csv);
-});
-
-// ---------- Import vidéo ----------
-fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-const VIDEO_EXT = /\.(mp4|m4v|mov|webm|mkv|avi|3gp|ts|mts)$/i;
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: UPLOADS_DIR,
-    filename: (_req, file, cb) => cb(null, `${Date.now()}_${path.basename(file.originalname).replace(/[^\w.-]/g, "_")}`),
-  }),
-  // Certains navigateurs envoient application/octet-stream : on accepte aussi par extension.
-  fileFilter: (_req, file, cb) =>
-    cb(null, file.mimetype.startsWith("video/") || VIDEO_EXT.test(file.originalname)),
-  limits: { fileSize: 2 * 1024 ** 3 },
-});
-
-function setImport(id: number, fields: Record<string, string | number>) {
-  const keys = Object.keys(fields);
-  db().prepare(`UPDATE imports SET ${keys.map((k) => `${k} = ?`).join(", ")} WHERE id = ?`)
-    .run(...Object.values(fields), id);
-}
-
-api.post("/imports", upload.single("video"), (req, res) => {
-  if (!req.file) throw new HttpError(400, "Fichier vidéo manquant ou format non reconnu");
-  const interval = Math.max(0.3, Number(req.body.interval) || 1.5);
-  const shelfHint = String(req.body.shelf_hint ?? "").trim() || null;
-  const id = Number(db().prepare("INSERT INTO imports (filename) VALUES (?)").run(req.file.originalname).lastInsertRowid);
-
-  runImport(req.file.path, {
-    importId: id, interval, shelfHint,
-    onProgress: (p, message) => setImport(id, { status: "en_cours", progress: p, message }),
-  })
-    .then((r) => setImport(id, {
-      status: "termine", progress: 1, frames: r.frames, books_added: r.added,
-      message: `${r.added} livres ajoutés, ${r.skipped} doublons ignorés`,
-    }))
-    .catch((err) => setImport(id, { status: "erreur", message: err instanceof Error ? err.message : String(err) }));
-
-  res.status(202).json(db().prepare("SELECT * FROM imports WHERE id = ?").get(id));
-});
-
-api.get("/imports", (_req, res) => {
-  res.json(db().prepare("SELECT * FROM imports ORDER BY id DESC").all());
-});
-
-api.get("/imports/:id", (req, res) => {
-  const row = db().prepare("SELECT * FROM imports WHERE id = ?").get(idParam(req));
-  if (!row) throw new HttpError(404, "Import introuvable");
-  res.json(row);
 });
 
 app.use("/api", api);
