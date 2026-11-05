@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RecyBook</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>📚 RecyBook</h1>
+  <nav>
+    <button class="tab active" data-view="library">Bibliothèque</button>
+    <button class="tab" data-view="import">Importer une vidéo</button>
+  </nav>
+</header>
+
+<main>
+  <section id="view-library">
+    <div class="stats" id="stats"></div>
+
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Rechercher un titre, un auteur, un ISBN…">
+      <select id="filter-status">
+        <option value="">Tous les statuts</option>
+        <option value="a_verifier">À vérifier</option>
+        <option value="valide">Validés</option>
+      </select>
+      <select id="filter-shelf"><option value="">Toutes les étagères</option></select>
+      <select id="filter-genre"><option value="">Tous les genres</option></select>
+      <select id="sort">
+        <option value="position">Ordre dans l'armoire</option>
+        <option value="title">Titre</option>
+        <option value="author">Auteur</option>
+        <option value="recent">Ajout récent</option>
+      </select>
+      <button id="btn-add" class="primary">+ Ajouter</button>
+      <button id="btn-validate-all">Tout valider</button>
+      <a class="button" href="/api/export.csv">Exporter CSV</a>
+    </div>
+
+    <table id="books">
+      <thead>
+        <tr><th></th><th>Titre</th><th>Auteur</th><th>Genre</th><th>Étagère</th><th>Statut</th><th>Lu</th><th></th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p id="empty" class="muted" hidden>Aucun livre. Importez la vidéo de votre armoire ou ajoutez un livre.</p>
+  </section>
+
+  <section id="view-import" hidden>
+    <form id="import-form" class="card">
+      <h2>Remplir la base depuis une vidéo</h2>
+      <p class="muted">Filmez lentement chaque étagère, tranches bien éclairées et nettes.
+        Les images sont extraites de la vidéo puis analysées par Claude ; les livres reconnus
+        sont ajoutés avec le statut <em>à vérifier</em>.</p>
+      <label>Vidéo <input type="file" name="video" accept="video/*" required></label>
+      <label>Nom de l'armoire / emplacement (optionnel)
+        <input type="text" name="shelf_hint" placeholder="ex. Armoire du salon"></label>
+      <label>Intervalle entre deux images (secondes)
+        <input type="number" name="interval" value="1.5" min="0.3" step="0.1"></label>
+      <button class="primary" type="submit">Lancer l'analyse</button>
+    </form>
+    <div class="card">
+      <h2>Imports</h2>
+      <ul id="imports"></ul>
+    </div>
+  </section>
+</main>
+
+<dialog id="book-dialog">
+  <form id="book-form" method="dialog">
+    <h2 id="dialog-title">Livre</h2>
+    <img id="frame-preview" alt="Image extraite de la vidéo" hidden>
+    <div class="grid">
+      <label class="wide">Titre* <input name="title" required></label>
+      <label>Auteur <input name="author"></label>
+      <label>Éditeur <input name="publisher"></label>
+      <label>Année <input name="year" type="number"></label>
+      <label>ISBN <input name="isbn"></label>
+      <label>Genre <input name="genre"></label>
+      <label>Langue <input name="language" maxlength="5"></label>
+      <label>Étagère <input name="shelf"></label>
+      <label>Position <input name="position" type="number"></label>
+      <label>Statut
+        <select name="status"><option value="valide">Validé</option><option value="a_verifier">À vérifier</option></select>
+      </label>
+      <label class="check"><input name="is_read" type="checkbox"> Lu</label>
+      <label class="wide">Notes <textarea name="notes" rows="3"></textarea></label>
+    </div>
+    <div class="actions">
+      <button type="button" id="btn-delete" class="danger">Supprimer</button>
+      <span class="spacer"></span>
+      <button type="button" id="btn-cancel">Annuler</button>
+      <button type="submit" class="primary">Enregistrer</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
