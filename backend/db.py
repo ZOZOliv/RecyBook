@@ -92,12 +92,19 @@ def row_to_dict(row: sqlite3.Row | None) -> dict | None:
     return d
 
 
-def find_duplicate(conn: sqlite3.Connection, title: str, author: str | None) -> sqlite3.Row | None:
-    """Doublon = même titre normalisé, et même auteur si les deux sont connus."""
+def find_duplicate(
+    conn: sqlite3.Connection, title: str, author: str | None, publisher: str | None = None
+) -> sqlite3.Row | None:
+    """Doublon = même titre normalisé, même auteur si les deux sont connus,
+    et même éditeur si les deux sont connus (deux guides « Pérou » d'éditeurs différents ≠ doublon)."""
     nt = normalize(title)
     na = normalize(author)
-    for row in conn.execute("SELECT * FROM books WHERE norm_key LIKE ?", (nt + "|%",)):
+    npub = normalize(publisher)
+    for row in conn.execute("SELECT * FROM books WHERE substr(norm_key, 1, ?) = ?", (len(nt) + 1, nt + "|")):
         other = row["norm_key"].split("|", 1)[1]
+        other_pub = normalize(row["publisher"])
+        if npub and other_pub and not _same_author(npub, other_pub):
+            continue
         if not na or not other or _same_author(na, other):
             return row
     return None

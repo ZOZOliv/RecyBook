@@ -21,6 +21,17 @@ uvicorn backend.app:app --reload
 
 Ouvrez ensuite <http://localhost:8000>.
 
+### Charger les livres déjà identifiés dans la vidéo de l'armoire
+
+Les 37 livres reconnus dans la vidéo `PXL_20260731_114114534.TS.mp4` (armoire vitrée, 2 étagères)
+sont fournis dans `seed/armoire_video.json`, avec les images sources dans `seed/frames/` :
+
+```bash
+python -m backend.seed
+```
+
+Ils arrivent avec le statut « à vérifier » : relisez en priorité ceux dont la note signale une tranche peu lisible.
+
 ## Utilisation
 
 - **Importer une vidéo** : onglet « Importer une vidéo », choisissez le fichier, indiquez éventuellement le nom de l'armoire. La progression s'affiche en direct.
@@ -43,6 +54,8 @@ backend/
   app.py           API FastAPI + service des fichiers du frontend
   db.py            schéma SQLite et dédoublonnage
   video_import.py  extraction des images + reconnaissance par Claude
+  seed.py          chargement des livres de seed/ dans la base
+seed/              livres identifiés dans la vidéo de l'armoire + images
 frontend/          interface web (HTML / CSS / JS sans dépendance)
 data/              base SQLite, vidéos importées, images extraites (non versionné)
 ```

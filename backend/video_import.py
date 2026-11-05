@@ -173,7 +173,7 @@ def run_import(
             position = conn.execute("SELECT COALESCE(MAX(position), 0) FROM books").fetchone()[0]
             for book in books:
                 title = (book.get("title") or "").strip()
-                if not title or book.get("already_listed") or db.find_duplicate(conn, title, book.get("author")):
+                if not title or book.get("already_listed") or db.find_duplicate(conn, title, book.get("author"), book.get("publisher")):
                     skipped += 1
                     continue
                 idx = min(max(book.get("frame_index", 0), 0), len(batch) - 1)
