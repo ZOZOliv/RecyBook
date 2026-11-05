@@ -1,0 +1,42 @@
+<dialog #dialog (cancel)="$event.preventDefault(); close()">
+  <form #f="ngForm" (ngSubmit)="save()">
+    <h2>{{ book() ? 'Modifier le livre' : 'Ajouter un livre' }}</h2>
+
+    @if (book()?.source_frame) {
+      <img class="frame-preview" [src]="'/frames/' + book()!.source_frame" alt="Image extraite de la vidéo">
+    }
+
+    <div class="grid">
+      <label class="wide">Titre* <input name="title" required [(ngModel)]="draft.title"></label>
+      <label>Auteur <input name="author" [(ngModel)]="draft.author"></label>
+      <label>Éditeur <input name="publisher" [(ngModel)]="draft.publisher"></label>
+      <label>Année <input name="year" type="number" [(ngModel)]="draft.year"></label>
+      <label>ISBN <input name="isbn" [(ngModel)]="draft.isbn"></label>
+      <label>Genre <input name="genre" [(ngModel)]="draft.genre"></label>
+      <label>Langue <input name="language" maxlength="5" [(ngModel)]="draft.language"></label>
+      <label>Étagère <input name="shelf" [(ngModel)]="draft.shelf"></label>
+      <label>Position <input name="position" type="number" [(ngModel)]="draft.position"></label>
+      <label>Statut
+        <select name="status" [(ngModel)]="draft.status">
+          <option value="valide">Validé</option>
+          <option value="a_verifier">À vérifier</option>
+        </select>
+      </label>
+      <label class="check"><input name="is_read" type="checkbox" [(ngModel)]="draft.is_read"> Lu</label>
+      <label class="wide">Notes <textarea name="notes" rows="3" [(ngModel)]="draft.notes"></textarea></label>
+    </div>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <div class="actions">
+      @if (book()) {
+        <button type="button" class="danger" (click)="remove()">Supprimer</button>
+      }
+      <span class="spacer"></span>
+      <button type="button" (click)="close()">Annuler</button>
+      <button type="submit" class="primary" [disabled]="f.invalid || saving()">Enregistrer</button>
+    </div>
+  </form>
+</dialog>

@@ -1,0 +1,83 @@
+<div class="stats">
+  @for (card of statCards(); track card.label) {
+    <div class="stat"><b>{{ card.value }}</b><span class="muted">{{ card.label }}</span></div>
+  }
+</div>
+
+<div class="toolbar">
+  <input type="search" placeholder="Rechercher un titre, un auteur, un ISBN…" aria-label="Rechercher"
+         [ngModel]="search()" (ngModelChange)="search.set($event)">
+  <select aria-label="Statut" [ngModel]="filters().status" (ngModelChange)="setFilter('status', $event)">
+    <option value="">Tous les statuts</option>
+    <option value="a_verifier">À vérifier</option>
+    <option value="valide">Validés</option>
+  </select>
+  <select aria-label="Étagère" [ngModel]="filters().shelf" (ngModelChange)="setFilter('shelf', $event)">
+    <option value="">Toutes les étagères</option>
+    @for (shelf of stats()?.shelves ?? []; track shelf) {
+      <option [value]="shelf">{{ shelf }}</option>
+    }
+  </select>
+  <select aria-label="Genre" [ngModel]="filters().genre" (ngModelChange)="setFilter('genre', $event)">
+    <option value="">Tous les genres</option>
+    @for (genre of stats()?.genres ?? []; track genre) {
+      <option [value]="genre">{{ genre }}</option>
+    }
+  </select>
+  <select aria-label="Tri" [ngModel]="filters().sort" (ngModelChange)="setFilter('sort', $event)">
+    <option value="position">Ordre dans l'armoire</option>
+    <option value="title">Titre</option>
+    <option value="author">Auteur</option>
+    <option value="recent">Ajout récent</option>
+  </select>
+  <button class="primary" (click)="editing.set('new')">+ Ajouter</button>
+  <button (click)="validateAll()" [disabled]="!stats()?.a_verifier">Tout valider</button>
+  <a class="button" href="/api/export.csv">Exporter CSV</a>
+</div>
+
+@if (error()) {
+  <p class="error">Erreur : {{ error() }}</p>
+}
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th></th><th>Titre</th><th>Auteur</th><th>Genre</th><th>Étagère</th><th>Statut</th><th>Lu</th><th></th></tr>
+  </thead>
+  <tbody>
+    @for (book of books(); track book.id) {
+      <tr (click)="editing.set(book)">
+        <td class="thumb">
+          @if (book.source_frame) {
+            <img loading="lazy" [src]="'/frames/' + book.source_frame" alt="">
+          }
+        </td>
+        <td>
+          <strong>{{ book.title }}</strong>
+          @if (book.year) { <span class="muted"> ({{ book.year }})</span> }
+        </td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.genre }}</td>
+        <td>{{ book.shelf }}</td>
+        <td><span class="badge" [class]="book.status">{{ statusLabels[book.status] }}</span></td>
+        <td (click)="$event.stopPropagation()">
+          <input type="checkbox" aria-label="Lu" [checked]="book.is_read" (change)="toggleRead(book, $event)">
+        </td>
+        <td (click)="$event.stopPropagation()">
+          @if (book.status === 'a_verifier') {
+            <button (click)="validate(book)">Valider</button>
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+</div>
+
+@if (!loading() && books().length === 0) {
+  <p class="muted">Aucun livre. Importez la vidéo de votre armoire ou ajoutez un livre.</p>
+}
+
+@if (editing(); as current) {
+  <app-book-dialog [book]="current === 'new' ? null : current" (closed)="onDialogClosed($event)" />
+}

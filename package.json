@@ -1,0 +1,18 @@
+{
+  "name": "recybook",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Gestion de livres avec import depuis une vidéo (Angular + Express)",
+  "scripts": {
+    "postinstall": "npm --prefix server install && npm --prefix client install",
+    "dev": "concurrently -n server,client -c yellow,cyan \"npm --prefix server run dev\" \"npm --prefix client start\"",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start",
+    "seed": "npm --prefix server run seed",
+    "import-video": "npm --prefix server run import-video --",
+    "typecheck": "npm --prefix server run typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}
