@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/.angular
+data
+.git
+*.log
+Dockerfile
+.dockerignore
+cmd

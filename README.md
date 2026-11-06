@@ -29,9 +29,21 @@ Ouvrez <http://localhost:4200>.
 ### Production
 
 ```bash
-npm run build        # compile Angular dans client/dist/
+npm run build        # compile Angular (client/dist/) et le serveur (server/dist/)
 npm start            # Express sert l'API et l'application sur http://localhost:3000
 ```
+
+### Docker
+
+```bash
+docker build -t recybook .
+docker run -d -p 8080:3000 -v recybook-data:/app/data --name recybook recybook
+```
+
+Ouvrez <http://localhost:8080>. Au premier démarrage, la base est initialisée avec les 37 livres de `seed/` ;
+le volume `recybook-data` conserve la base et vos modifications d'un conteneur à l'autre.
+L'image ne contient pas ffmpeg : pour initialiser la base depuis une autre vidéo, lancez
+`npm run import-video` hors de Docker, puis copiez le dossier `data/` dans le volume.
 
 Variables d'environnement : `PORT` (défaut 3000), `RECYBOOK_DATA` (dossier des données, défaut `data/`).
 

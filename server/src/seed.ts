@@ -1,8 +1,11 @@
-/** Charge dans la base les livres déjà identifiés depuis la vidéo de l'armoire (npm run seed). */
+/**
+ * Charge dans la base les livres déjà identifiés depuis la vidéo de l'armoire (npm run seed).
+ * Option --if-empty : ne fait rien si la base contient déjà des livres (démarrage du conteneur Docker).
+ */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { findDuplicate, FRAMES_DIR, insertBook, ROOT, type BookInput } from "./db.js";
+import { db, findDuplicate, FRAMES_DIR, insertBook, ROOT, type BookInput } from "./db.js";
 
 const SEED_DIR = path.join(ROOT, "seed");
 const TAG = "armoire_video";
@@ -32,5 +35,10 @@ export function loadSeed(seedFile = path.join(SEED_DIR, "armoire_video.json")) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  console.log(loadSeed());
+  const count = Number((db().prepare("SELECT COUNT(*) AS n FROM books").get() as { n: number }).n);
+  if (process.argv.includes("--if-empty") && count > 0) {
+    console.log(`Base déjà initialisée (${count} livres), rien à charger.`);
+  } else {
+    console.log(loadSeed());
+  }
 }
