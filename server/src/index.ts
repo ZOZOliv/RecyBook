@@ -5,6 +5,7 @@ import express, { type Request, type Response, type NextFunction } from "express
 import {
   BOOK_FIELDS, db, FRAMES_DIR, getBook, insertBook, ROOT, toBook, updateBook, type BookInput,
 } from "./db.js";
+import { booksWithoutCoverSearch, clearCachedCover, coverFile, queueCoverSearch, searchCover } from "./covers.js";
 
 const app = express();
 app.use(express.json());
@@ -22,7 +23,7 @@ function parseBook(body: unknown, partial: boolean): Partial<BookInput> {
   const src = body as Record<string, unknown>;
   const out: Record<string, unknown> = {};
   for (const f of BOOK_FIELDS) {
-    if (!(f in src) || f === "confidence" || f === "source_frame") continue;
+    if (!(f in src) || f === "confidence" || f === "source_frame" || f === "cover_status") continue;
     const v = src[f];
     if (v === null || v === "") { out[f] = null; continue; }
     if (f === "year" || f === "position") {
@@ -31,6 +32,10 @@ function parseBook(body: unknown, partial: boolean): Partial<BookInput> {
       out[f] = n;
     } else if (f === "is_read") {
       out[f] = Boolean(v);
+    } else if (f === "cover_url") {
+      const url = String(v).trim();
+      if (!/^https?:\/\/\S+$/i.test(url)) throw new HttpError(400, "L'URL de la couverture doit commencer par http(s)://");
+      out[f] = url;
     } else {
       out[f] = String(v).trim();
     }
@@ -81,18 +86,56 @@ api.get("/books/:id", (req, res) => {
 
 api.post("/books", (req, res) => {
   const data = parseBook(req.body, false) as BookInput;
-  res.status(201).json(getBook(insertBook({ status: "valide", ...data })));
+  const id = insertBook({ status: "valide", ...data, cover_status: data.cover_url ? "found" : null });
+  if (!data.cover_url) queueCoverSearch(id);
+  res.status(201).json(getBook(id));
 });
 
+/** Champs qui identifient le livre : s'ils changent, la couverture est recherchée à nouveau. */
+const IDENTITY_FIELDS = ["title", "author", "publisher", "isbn"] as const;
+
 api.patch("/books/:id", (req, res) => {
-  const book = updateBook(idParam(req), parseBook(req.body, true));
-  if (!book) throw new HttpError(404, "Livre introuvable");
+  const id = idParam(req);
+  const current = getBook(id);
+  if (!current) throw new HttpError(404, "Livre introuvable");
+  const changes = parseBook(req.body, true);
+  let research = false;
+  if ("cover_url" in changes) {
+    // URL saisie (ou effacée) par l'utilisateur
+    if (changes.cover_url !== current.cover_url) {
+      clearCachedCover(id);
+      changes.cover_status = changes.cover_url ? "found" : "absent";
+    }
+  } else if (IDENTITY_FIELDS.some((f) => f in changes && (changes[f] ?? null) !== current[f])) {
+    clearCachedCover(id);
+    Object.assign(changes, { cover_url: null, cover_status: null });
+    research = true;
+  }
+  const book = updateBook(id, changes);
+  if (research) queueCoverSearch(id);
   res.json(book);
 });
 
 api.delete("/books/:id", (req, res) => {
-  db().prepare("DELETE FROM books WHERE id = ?").run(idParam(req));
+  const id = idParam(req);
+  db().prepare("DELETE FROM books WHERE id = ?").run(id);
+  clearCachedCover(id);
   res.status(204).end();
+});
+
+// Couverture officielle, servie depuis le cache local (téléchargée au premier affichage)
+api.get("/books/:id/cover", async (req, res) => {
+  const book = getBook(idParam(req));
+  const file = book && (await coverFile(book));
+  if (!file) throw new HttpError(404, "Pas de couverture");
+  res.sendFile(file, { maxAge: "7d" });
+});
+
+// Relance la recherche de couverture et attend le résultat
+api.post("/books/:id/cover/search", async (req, res) => {
+  const book = await searchCover(idParam(req));
+  if (!book) throw new HttpError(404, "Livre introuvable");
+  res.json(book);
 });
 
 api.post("/books/validate-all", (_req, res) => {
@@ -145,4 +188,12 @@ app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 const port = Number(process.env.PORT ?? 3000);
-app.listen(port, () => console.log(`RecyBook : http://localhost:${port}`));
+app.listen(port, () => {
+  console.log(`RecyBook : http://localhost:${port}`);
+  // Cherche en arrière-plan les couvertures jamais cherchées (ex. après npm run seed)
+  const pending = booksWithoutCoverSearch();
+  if (pending.length && process.env.RECYBOOK_COVERS !== "off") {
+    console.log(`Recherche des couvertures de ${pending.length} livres en arrière-plan…`);
+    queueCoverSearch(...pending);
+  }
+});

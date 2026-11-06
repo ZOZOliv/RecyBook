@@ -45,7 +45,9 @@ le volume `recybook-data` conserve la base et vos modifications d'un conteneur �
 L'image ne contient pas ffmpeg : pour initialiser la base depuis une autre vidéo, lancez
 `npm run import-video` hors de Docker, puis copiez le dossier `data/` dans le volume.
 
-Variables d'environnement : `PORT` (défaut 3000), `RECYBOOK_DATA` (dossier des données, défaut `data/`).
+Variables d'environnement : `PORT` (défaut 3000), `RECYBOOK_DATA` (dossier des données, défaut `data/`),
+`GOOGLE_BOOKS_API_KEY` (facultatif, voir « Couvertures »), `RECYBOOK_COVERS=off` (désactive la recherche
+automatique des couvertures, par exemple hors ligne).
 
 ## Initialisation de la base
 
@@ -80,10 +82,36 @@ npm run import-video -- ma_video.mp4 --shelf-hint "Armoire salon" [--interval 1.
 3. Les doublons (même livre vu sur plusieurs images, ou déjà en base) sont éliminés.
 4. Les livres sont ajoutés avec le statut **« à vérifier »** et l'image d'où ils viennent.
 
+## Couvertures
+
+Les vignettes affichent la **couverture officielle** de chaque livre, cherchée automatiquement :
+
+1. par ISBN, s'il est renseigné (Open Library) ;
+2. par titre et auteur dans [Open Library](https://openlibrary.org), en préférant une édition française ;
+3. sinon dans Google Books.
+
+Un résultat dont le titre ne correspond pas est écarté, pour éviter d'afficher la couverture d'un autre livre.
+
+La recherche se fait **en arrière-plan** au démarrage du serveur (pour les livres jamais cherchés, par exemple
+après `npm run seed`), à l'ajout d'un livre, et quand son titre, son auteur, son éditeur ou son ISBN change.
+Les images sont gardées en cache dans `data/covers/` : le navigateur ne charge que des images servies par
+RecyBook.
+
+Dans la fiche d'un livre, vous pouvez relancer la recherche (« Rechercher la couverture ») ou coller l'URL d'une
+couverture de votre choix. Pour tout chercher d'un coup et voir la liste des livres sans couverture :
+
+```bash
+npm run covers            # livres jamais cherchés
+npm run covers -- --all   # tous les livres
+```
+
+L'API Google Books limite le nombre de requêtes anonymes ; avec beaucoup de livres, définissez
+`GOOGLE_BOOKS_API_KEY` (clé gratuite sur Google Cloud).
+
 ## Fonctionnalités
 
 - Recherche (titre, auteur, ISBN, notes), filtres par statut / étagère / genre, tri
-- Ajout, modification, suppression ; fiche avec l'image de la vidéo où le livre apparaît
+- Ajout, modification, suppression ; couverture officielle de chaque livre
 - Case « Lu », validation livre par livre ou en une fois
 - Export CSV (compatible Excel)
 
@@ -99,8 +127,9 @@ server/                 serveur Express
   src/db.ts             schéma SQLite et dédoublonnage
   src/videoImport.ts    initialisation depuis une vidéo (ffmpeg + Claude), en ligne de commande
   src/seed.ts           initialisation avec les livres de seed/
+  src/covers.ts         recherche et cache des couvertures (Open Library, Google Books)
 seed/                   livres identifiés dans la vidéo de l'armoire + images
-data/                   base SQLite et images extraites (non versionné)
+data/                   base SQLite, couvertures en cache, images extraites (non versionné)
 ```
 
 ## API
@@ -111,5 +140,7 @@ data/                   base SQLite et images extraites (non versionné)
 | GET / PATCH / DELETE | `/api/books/:id` | lire, modifier, supprimer un livre |
 | POST | `/api/books` | ajouter un livre |
 | POST | `/api/books/validate-all` | valider tous les livres « à vérifier » |
+| GET | `/api/books/:id/cover` | image de la couverture (404 si aucune) |
+| POST | `/api/books/:id/cover/search` | relancer la recherche de couverture |
 | GET | `/api/stats` | compteurs, étagères et genres |
 | GET | `/api/export.csv` | export CSV |

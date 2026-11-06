@@ -48,8 +48,11 @@
     @for (book of books(); track book.id) {
       <tr (click)="editing.set(book)">
         <td class="thumb">
-          @if (book.source_frame) {
-            <img loading="lazy" [src]="'/frames/' + book.source_frame" alt="">
+          @if (book.cover_status === 'found') {
+            <img loading="lazy" [src]="coverSrc(book)" alt="" (error)="$any($event.target).hidden = true">
+          } @else {
+            <span class="no-cover" [class.pending]="book.cover_status === null"
+                  [title]="book.cover_status === null ? 'Recherche de la couverture…' : 'Pas de couverture trouvée'">📕</span>
           }
         </td>
         <td>

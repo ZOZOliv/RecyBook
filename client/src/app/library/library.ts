@@ -1,8 +1,8 @@
-import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
+import { Component, DestroyRef, computed, effect, inject, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { BookDialog } from '../book-dialog/book-dialog';
-import { Book, BookFilters, STATUS_LABELS, Stats } from '../models';
+import { Book, BookFilters, STATUS_LABELS, Stats, coverSrc } from '../models';
 
 @Component({
   selector: 'app-library',
@@ -13,6 +13,8 @@ export class Library {
   private readonly api = inject(ApiService);
 
   protected readonly statusLabels = STATUS_LABELS;
+  protected readonly coverSrc = coverSrc;
+  private coverPoll: ReturnType<typeof setTimeout> | undefined;
   protected readonly books = signal<Book[]>([]);
   protected readonly stats = signal<Stats | null>(null);
   protected readonly loading = signal(true);
@@ -37,6 +39,7 @@ export class Library {
   });
 
   constructor() {
+    inject(DestroyRef).onDestroy(() => clearTimeout(this.coverPoll));
     // Recharge la liste à chaque changement de filtre.
     effect(() => {
       const f = this.filters();
@@ -57,8 +60,14 @@ export class Library {
 
   private async loadBooks(filters: BookFilters): Promise<void> {
     try {
-      this.books.set(await this.api.listBooks(filters));
+      const books = await this.api.listBooks(filters);
+      this.books.set(books);
       this.error.set(null);
+      // Les couvertures sont cherchées en arrière-plan par le serveur : on rafraîchit tant qu'il en reste.
+      clearTimeout(this.coverPoll);
+      if (books.some((b) => b.cover_status === null)) {
+        this.coverPoll = setTimeout(() => this.loadBooks(this.filters()), 3000);
+      }
     } catch (err) {
       this.error.set((err as Error).message);
     } finally {

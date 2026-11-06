@@ -33,7 +33,11 @@ th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--bor
 th { font-size: .8rem; text-transform: uppercase; color: var(--muted); letter-spacing: .04em; }
 tbody tr { cursor: pointer; }
 tbody tr:hover { background: var(--bg); }
-td.thumb img { width: 56px; height: 40px; object-fit: cover; border-radius: 4px; display: block; }
+td.thumb { width: 52px; }
+td.thumb img { width: 36px; height: 54px; object-fit: cover; border-radius: 3px; display: block; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.no-cover { display: inline-flex; width: 36px; height: 54px; align-items: center; justify-content: center; border-radius: 3px; background: var(--bg); border: 1px dashed var(--border); opacity: .6; }
+.no-cover.pending { animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
 .badge { font-size: .78rem; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
 .badge.a_verifier { background: var(--warn-bg); color: var(--warn); }
 .badge.valide { background: var(--ok-bg); color: var(--ok); }
@@ -43,7 +47,9 @@ form label { display: block; margin-bottom: 10px; font-size: .9rem; }
 dialog { border: 1px solid var(--border); border-radius: 14px; padding: 20px; background: var(--surface); color: var(--text); width: min(680px, calc(100vw - 32px)); }
 dialog::backdrop { background: rgba(0,0,0,.45); }
 dialog h2 { margin-top: 0; }
-.frame-preview { width: 100%; max-height: 420px; object-fit: contain; border-radius: 8px; background: #000; margin-bottom: 12px; }
+.cover-box { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 12px; }
+.cover-large { width: 140px; height: 210px; object-fit: cover; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+div.cover-large.no-cover { opacity: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px; background: var(--bg); border: 1px dashed var(--border); color: var(--muted); font-size: .85rem; box-shadow: none; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
 .grid .wide { grid-column: 1 / -1; }
 .grid .check { display: flex; align-items: center; gap: 8px; margin-top: 24px; }
@@ -53,7 +59,6 @@ dialog h2 { margin-top: 0; }
 @media (max-width: 700px) {
   .grid { grid-template-columns: 1fr; }
   th:nth-child(4), td:nth-child(4), th:nth-child(5), td:nth-child(5), th:nth-child(7), td:nth-child(7) { display: none; }
-  td.thumb img { width: 40px; }
 }
 .error { color: var(--danger); }
 button:disabled { opacity: .5; cursor: default; }

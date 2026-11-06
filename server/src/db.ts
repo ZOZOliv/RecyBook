@@ -8,10 +8,12 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 export const ROOT = path.resolve(here, "..", "..");
 export const DATA_DIR = path.resolve(process.env.RECYBOOK_DATA ?? path.join(ROOT, "data"));
 export const FRAMES_DIR = path.join(DATA_DIR, "frames");
+export const COVERS_DIR = path.join(DATA_DIR, "covers");
 
 export const BOOK_FIELDS = [
   "title", "author", "publisher", "year", "isbn", "genre", "language",
   "shelf", "position", "status", "is_read", "notes", "confidence", "source_frame",
+  "cover_url", "cover_status",
 ] as const;
 export type BookField = (typeof BOOK_FIELDS)[number];
 
@@ -31,6 +33,10 @@ export interface Book {
   notes: string | null;
   confidence: number | null;
   source_frame: string | null;
+  /** URL de la couverture officielle (trouvée automatiquement ou saisie). */
+  cover_url: string | null;
+  /** null = pas encore cherchée, "found" = trouvée, "absent" = aucune couverture trouvée. */
+  cover_status: "found" | "absent" | null;
   import_id: number | null;
   created_at: string;
   updated_at: string;
@@ -55,6 +61,8 @@ CREATE TABLE IF NOT EXISTS books (
     notes        TEXT,
     confidence   REAL,
     source_frame TEXT,
+    cover_url    TEXT,
+    cover_status TEXT,
     import_id    INTEGER,          -- inutilisé, conservé pour les bases existantes
     norm_key     TEXT,
     created_at   TEXT NOT NULL DEFAULT (datetime('now')),
@@ -71,8 +79,17 @@ export function db(): DatabaseSync {
     instance = new DatabaseSync(path.join(DATA_DIR, "recybook.db"));
     instance.exec("PRAGMA journal_mode = WAL;");
     instance.exec(SCHEMA);
+    migrate(instance);
   }
   return instance;
+}
+
+/** Ajoute aux bases créées par une version précédente les colonnes apparues depuis. */
+function migrate(conn: DatabaseSync): void {
+  const cols = new Set((conn.prepare("PRAGMA table_info(books)").all() as { name: string }[]).map((c) => c.name));
+  for (const col of ["cover_url", "cover_status"]) {
+    if (!cols.has(col)) conn.exec(`ALTER TABLE books ADD COLUMN ${col} TEXT`);
+  }
 }
 
 export function normalize(text: string | null | undefined): string {

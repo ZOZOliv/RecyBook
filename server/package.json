@@ -9,6 +9,7 @@
     "start": "node dist/index.js",
     "seed": "tsx src/seed.ts",
     "import-video": "tsx src/videoImport.ts",
+    "covers": "tsx src/covers.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -10,6 +10,7 @@
     "start": "npm --prefix server start",
     "seed": "npm --prefix server run seed",
     "import-video": "npm --prefix server run import-video --",
+    "covers": "npm --prefix server run covers --",
     "typecheck": "npm --prefix server run typecheck"
   },
   "devDependencies": {

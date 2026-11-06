@@ -2,8 +2,17 @@
   <form #f="ngForm" (ngSubmit)="save()">
     <h2>{{ book() ? 'Modifier le livre' : 'Ajouter un livre' }}</h2>
 
-    @if (book()?.source_frame) {
-      <img class="frame-preview" [src]="'/frames/' + book()!.source_frame" alt="Image extraite de la vidéo">
+    @if (current(); as b) {
+      <div class="cover-box">
+        @if (b.cover_status === 'found') {
+          <img class="cover-large" [src]="coverSrc(b)" alt="Couverture de {{ b.title }}">
+        } @else {
+          <div class="cover-large no-cover">{{ b.cover_status === null ? 'Recherche de la couverture…' : 'Pas de couverture' }}</div>
+        }
+        <button type="button" (click)="searchCover()" [disabled]="searching()">
+          {{ searching() ? 'Recherche…' : 'Rechercher la couverture' }}
+        </button>
+      </div>
     }
 
     <div class="grid">
@@ -23,6 +32,9 @@
         </select>
       </label>
       <label class="check"><input name="is_read" type="checkbox" [(ngModel)]="draft.is_read"> Lu</label>
+      <label class="wide">URL de la couverture (laisser vide pour la recherche automatique)
+        <input name="cover_url" type="url" placeholder="https://…" [(ngModel)]="draft.cover_url">
+      </label>
       <label class="wide">Notes <textarea name="notes" rows="3" [(ngModel)]="draft.notes"></textarea></label>
     </div>
 

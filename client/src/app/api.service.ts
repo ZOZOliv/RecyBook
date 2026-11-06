@@ -33,6 +33,10 @@ export class ApiService {
     return this.call(this.http.post<{ validated: number }>('/api/books/validate-all', {}));
   }
 
+  searchCover(id: number): Promise<Book> {
+    return this.call(this.http.post<Book>(`/api/books/${id}/cover/search`, {}));
+  }
+
   stats(): Promise<Stats> {
     return this.call(this.http.get<Stats>('/api/stats'));
   }

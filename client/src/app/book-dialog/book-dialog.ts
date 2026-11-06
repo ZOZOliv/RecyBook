@@ -1,11 +1,11 @@
 import { Component, ElementRef, afterNextRender, inject, input, output, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../api.service';
-import { Book, BookDraft } from '../models';
+import { Book, BookDraft, coverSrc } from '../models';
 
 const EMPTY: BookDraft = {
   title: '', author: null, publisher: null, year: null, isbn: null, genre: null, language: null,
-  shelf: null, position: null, status: 'valide', is_read: false, notes: null,
+  shelf: null, position: null, status: 'valide', is_read: false, notes: null, cover_url: null,
 };
 
 /** Fiche d'un livre (ajout / modification / suppression) dans une boîte de dialogue native. */
@@ -25,13 +25,20 @@ export class BookDialog {
 
   protected draft: BookDraft = { ...EMPTY };
   protected readonly saving = signal(false);
+  protected readonly coverSrc = coverSrc;
+  /** Livre affiché, mis à jour après une recherche de couverture. */
+  protected readonly current = signal<Book | null>(null);
+  protected readonly searching = signal(false);
+  /** true si la base a changé (ex. couverture trouvée) même sans enregistrer. */
+  private changed = false;
   protected readonly error = signal<string | null>(null);
 
   constructor() {
     afterNextRender(() => {
       const book = this.book();
       if (book) {
-        const { id: _id, confidence: _c, source_frame: _s, ...fields } = book;
+        this.current.set(book);
+        const { id: _id, confidence: _c, source_frame: _s, cover_status: _cs, updated_at: _u, ...fields } = book;
         this.draft = { ...EMPTY, ...fields };
       }
       this.dialog().nativeElement.showModal();
@@ -62,6 +69,24 @@ export class BookDialog {
     }
   }
 
+  protected async searchCover(): Promise<void> {
+    const book = this.book();
+    if (!book) return;
+    this.searching.set(true);
+    this.error.set(null);
+    try {
+      const updated = await this.api.searchCover(book.id);
+      this.current.set(updated);
+      this.draft.cover_url = updated.cover_url;
+      this.changed = true;
+      if (updated.cover_status !== 'found') this.error.set('Aucune couverture trouvée pour ce livre.');
+    } catch (err) {
+      this.error.set((err as Error).message);
+    } finally {
+      this.searching.set(false);
+    }
+  }
+
   protected async remove(): Promise<void> {
     const book = this.book();
     if (!book || !confirm('Supprimer ce livre ?')) return;
@@ -71,6 +96,6 @@ export class BookDialog {
 
   protected close(changed = false): void {
     this.dialog().nativeElement.close();
-    this.closed.emit(changed);
+    this.closed.emit(changed || this.changed);
   }
 }
