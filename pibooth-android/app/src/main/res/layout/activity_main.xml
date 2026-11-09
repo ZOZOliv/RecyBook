@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <!-- Aperçu caméra de la tablette (CameraX) -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/tablet_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:scaleType="fitCenter" />
+
+    <!-- Aperçu du reflex (images de visée PTP) -->
+    <ImageView
+        android:id="@+id/dslr_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:maxLines="1"
+            android:visibility="gone"
+            app:autoSizeMaxTextSize="300sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeTextType="uniform" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+            <!-- Deux panneaux : gauche / droite (choix, photo + consignes…) -->
+            <LinearLayout
+                android:id="@+id/panels"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/left_pane"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/left_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:contentDescription="@null"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:id="@+id/left_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        app:autoSizeMaxTextSize="200sp"
+                        app:autoSizeMinTextSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/right_pane"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/right_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:contentDescription="@null"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:id="@+id/right_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        app:autoSizeMaxTextSize="200sp"
+                        app:autoSizeMinTextSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Zone centrale : picto / photo + texte (compte à rebours, messages) -->
+            <LinearLayout
+                android:id="@+id/center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/center_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:contentDescription="@null"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:id="@+id/center_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:shadowColor="#AA000000"
+                    android:shadowRadius="8"
+                    app:autoSizeMaxTextSize="600sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeTextType="uniform" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Flash blanc au déclenchement -->
+    <View
+        android:id="@+id/flash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="#FFFFFF"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:alpha="0.6"
+        android:padding="8dp"
+        android:textSize="12sp" />
+
+    <!-- Appui long pour ouvrir les réglages -->
+    <ImageButton
+        android:id="@+id/settings_button"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="top|end"
+        android:alpha="0.25"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/settings"
+        android:src="@android:drawable/ic_menu_preferences" />
+</FrameLayout>

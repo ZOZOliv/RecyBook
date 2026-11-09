@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pibooth</string>
+
+    <!-- Booth texts (pibooth/language.py) -->
+    <string name="intro">Take a photo</string>
+    <string name="intro_print">Or you can\nstill print\nthis photo</string>
+    <string name="choose">Choose your layout</string>
+    <plurals name="n_photos">
+        <item quantity="one">%d photo</item>
+        <item quantity="other">%d photos</item>
+    </plurals>
+    <string name="chosen">Let\'s go!</string>
+    <string name="smile">Smile!</string>
+    <string name="processing">Processing…</string>
+    <string name="print">Print the photo?</string>
+    <string name="print_forget">Forget\nthis photo</string>
+    <string name="print_button">Print</string>
+    <string name="printing">Printing…</string>
+    <string name="finished">Thanks</string>
+    <string name="oops">Oops something went wrong</string>
+
+    <!-- Status / errors -->
+    <string name="status_no_dslr">No USB camera: plug a DSLR with an OTG adapter</string>
+    <string name="status_usb_permission">Waiting for USB permission…</string>
+    <string name="status_usb_denied">USB access denied</string>
+    <string name="status_connecting">Connecting to %1$s…</string>
+    <string name="status_no_camera">No camera available</string>
+    <string name="status_camera_opening">Camera is starting…</string>
+    <string name="status_dslr_detached">Camera disconnected</string>
+    <string name="error_dslr">DSLR error: %1$s</string>
+    <string name="printer_check_paper">Check printer paper / ink (max pages reached)</string>
+    <string name="printer_max_duplicates">Maximum number of copies reached</string>
+    <string name="printer_error">Printing error: %1$s</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="settings_hint">Long press to open settings</string>
+    <string name="settings_pin_prompt">Settings code</string>
+    <string name="settings_pin_wrong">Wrong code</string>
+    <string name="about">About</string>
+    <string name="about_summary">pibooth for Android %1$s — port of pibooth (MIT licence)</string>
+    <string name="always">Always</string>
+    <string name="image_choose">Choose an image</string>
+    <string name="image_remove">Remove</string>
+    <string name="image_none">None</string>
+
+    <string name="cat_general">General</string>
+    <string name="cat_window">Window</string>
+    <string name="cat_picture">Picture</string>
+    <string name="cat_camera">Camera</string>
+    <string name="cat_printer">Printer</string>
+    <string name="cat_counters">Counters</string>
+    <string name="cat_controls">Controls</string>
+
+    <string name="pref_directory">Folder in Pictures/</string>
+    <string name="pref_save_raw">Save raw captures</string>
+    <string name="pref_save_raw_summary">In the raw/ sub-folder, as delivered by the camera</string>
+    <string name="pref_settings_pin">Settings code</string>
+    <string name="pref_settings_pin_summary">Numeric code asked before opening settings (empty = none)</string>
+    <string name="pref_quit">Quit pibooth</string>
+    <string name="pref_window_background">Background color</string>
+    <string name="pref_window_text_color">Text color</string>
+    <string name="pref_window_font">Font</string>
+    <string name="pref_flash">Flash on capture</string>
+    <string name="pref_preview_delay">Preview delay (s)</string>
+    <string name="pref_preview_countdown">Preview countdown</string>
+    <string name="pref_preview_stop_on_capture">Stop preview before capture</string>
+    <string name="pref_chosen_delay">Chosen layout display time (s)</string>
+    <string name="pref_finish_picture_delay">Final picture display time (s)</string>
+    <string name="pref_wait_picture_delay">Picture display time on home screen (s)</string>
+    <string name="pref_captures">Number of captures (choices)</string>
+    <string name="pref_orientation">Orientation</string>
+    <string name="pref_effect">Capture effect</string>
+    <string name="pref_cropping">Crop captures</string>
+    <string name="pref_margin">Borders width (px at 600 dpi)</string>
+    <string name="pref_footer1">Title ({date}, {count} accepted)</string>
+    <string name="pref_footer2">Sub-title</string>
+    <string name="pref_footer_font1">Title font</string>
+    <string name="pref_footer_font2">Sub-title font</string>
+    <string name="pref_footer_color">Texts color</string>
+    <string name="pref_footer_align">Texts alignment</string>
+    <string name="pref_picture_background">Picture background color</string>
+    <string name="pref_picture_background_image">Picture background image</string>
+    <string name="pref_overlay">Overlay (PNG with transparency)</string>
+    <string name="pref_camera_mode">Camera</string>
+    <string name="pref_tablet_lens">Tablet camera</string>
+    <string name="pref_rotation">DSLR rotation (°)</string>
+    <string name="pref_flip">Mirror captures</string>
+    <string name="pref_preview_flip">Mirror DSLR preview</string>
+    <string name="pref_preview_flip_summary">Like a mirror, more natural for guests</string>
+    <string name="pref_autofocus">Autofocus on capture</string>
+    <string name="pref_delete_internal">Delete photos from the camera after download</string>
+    <string name="pref_canon_ram">Canon: capture to camera RAM</string>
+    <string name="pref_canon_ram_summary">No SD card needed, faster; photos only kept on the tablet</string>
+    <string name="pref_printer_mode">Printing</string>
+    <string name="pref_ipp_url">Printer IPP address</string>
+    <string name="pref_ipp_url_summary">e.g. ipp://192.168.1.20:631/ipp/print or ipp://cups-server:631/printers/Selphy</string>
+    <string name="pref_ipp_media">IPP media (optional)</string>
+    <string name="pref_ipp_media_summary">e.g. na_index-4x6_4x6in (empty = printer default)</string>
+    <string name="pref_printer_delay">Print screen display time (s, 0 = skip)</string>
+    <string name="pref_auto_print">Automatically printed pages</string>
+    <string name="pref_max_pages">Max printed pages before warning (-1 = infinite)</string>
+    <string name="pref_max_duplicates">Max copies of a picture</string>
+    <string name="pref_pictures_per_page">Copies per page</string>
+    <string name="pref_counters">Counters</string>
+    <string name="pref_counters_reset">Reset counters</string>
+    <string name="counters_reset_confirm">Reset all counters?</string>
+    <string name="pref_controls">Buttons</string>
+    <string name="pref_controls_summary">Touch screen, or USB/Bluetooth keyboard and remotes. Capture: Space, Enter, Vol+, ← , Bluetooth selfie remote. Print: P, Vol−, →. Settings: Esc or long press on the gear.</string>
+
+    <string name="orientation_auto">Automatic</string>
+    <string name="orientation_portrait">Portrait</string>
+    <string name="orientation_landscape">Landscape</string>
+    <string name="effect_none">None</string>
+    <string name="effect_grayscale">Black &amp; white</string>
+    <string name="effect_sepia">Sepia</string>
+    <string name="effect_vintage">Vintage</string>
+    <string name="effect_invert">Negative</string>
+    <string name="align_left">Left</string>
+    <string name="align_center">Center</string>
+    <string name="align_right">Right</string>
+    <string name="camera_mode_auto">Automatic (DSLR if plugged, else tablet)</string>
+    <string name="camera_mode_dslr">USB DSLR only</string>
+    <string name="camera_mode_hybrid">Hybrid: tablet preview + DSLR capture</string>
+    <string name="camera_mode_tablet">Tablet camera only</string>
+    <string name="lens_front">Front</string>
+    <string name="lens_back">Back</string>
+    <string name="printer_mode_none">No printer</string>
+    <string name="printer_mode_ipp">Network printer (IPP, no dialog)</string>
+    <string name="printer_mode_android">Android print service (dialog)</string>
+</resources>

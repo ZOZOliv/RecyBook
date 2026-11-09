@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- ====================================================== GENERAL -->
+    <PreferenceCategory app:title="@string/cat_general">
+        <EditTextPreference
+            app:defaultValue="pibooth"
+            app:key="general_directory"
+            app:title="@string/pref_directory"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="general_save_raw"
+            app:summary="@string/pref_save_raw_summary"
+            app:title="@string/pref_save_raw" />
+        <EditTextPreference
+            app:defaultValue=""
+            app:key="general_settings_pin"
+            app:summary="@string/pref_settings_pin_summary"
+            app:title="@string/pref_settings_pin" />
+        <Preference
+            app:key="general_quit"
+            app:title="@string/pref_quit" />
+    </PreferenceCategory>
+
+    <!-- ======================================================= WINDOW -->
+    <PreferenceCategory app:title="@string/cat_window">
+        <EditTextPreference
+            app:defaultValue="#000000"
+            app:key="window_background"
+            app:title="@string/pref_window_background"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:defaultValue="#FFFFFF"
+            app:key="window_text_color"
+            app:title="@string/pref_window_text_color"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="Amatic-Bold"
+            app:entries="@array/fonts"
+            app:entryValues="@array/fonts"
+            app:key="window_font"
+            app:title="@string/pref_window_font"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="window_flash"
+            app:title="@string/pref_flash" />
+        <ListPreference
+            app:defaultValue="3"
+            app:entries="@array/seconds_1_20"
+            app:entryValues="@array/seconds_1_20"
+            app:key="window_preview_delay"
+            app:title="@string/pref_preview_delay"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="window_preview_countdown"
+            app:title="@string/pref_preview_countdown" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="window_preview_stop_on_capture"
+            app:title="@string/pref_preview_stop_on_capture" />
+        <ListPreference
+            app:defaultValue="4"
+            app:entries="@array/seconds_0_9"
+            app:entryValues="@array/seconds_0_9"
+            app:key="window_chosen_delay"
+            app:title="@string/pref_chosen_delay"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="0"
+            app:entries="@array/seconds_0_120"
+            app:entryValues="@array/seconds_0_120"
+            app:key="window_finish_picture_delay"
+            app:title="@string/pref_finish_picture_delay"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="-1"
+            app:entries="@array/wait_delay_entries"
+            app:entryValues="@array/wait_delay_values"
+            app:key="window_wait_picture_delay"
+            app:title="@string/pref_wait_picture_delay"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <!-- ====================================================== PICTURE -->
+    <PreferenceCategory app:title="@string/cat_picture">
+        <ListPreference
+            app:defaultValue="4,1"
+            app:entries="@array/captures_entries"
+            app:entryValues="@array/captures_values"
+            app:key="picture_captures"
+            app:title="@string/pref_captures"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="auto"
+            app:entries="@array/orientation_entries"
+            app:entryValues="@array/orientation_values"
+            app:key="picture_orientation"
+            app:title="@string/pref_orientation"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="none"
+            app:entries="@array/effect_entries"
+            app:entryValues="@array/effect_values"
+            app:key="picture_captures_effects"
+            app:title="@string/pref_effect"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="picture_captures_cropping"
+            app:title="@string/pref_cropping" />
+        <EditTextPreference
+            app:defaultValue="100"
+            app:key="picture_margin_thick"
+            app:title="@string/pref_margin"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:defaultValue="Footer 1"
+            app:key="picture_footer_text1"
+            app:title="@string/pref_footer1"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:defaultValue="Footer 2"
+            app:key="picture_footer_text2"
+            app:title="@string/pref_footer2"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="Amatic-Bold"
+            app:entries="@array/fonts"
+            app:entryValues="@array/fonts"
+            app:key="picture_text_font1"
+            app:title="@string/pref_footer_font1"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="AmaticSC-Regular"
+            app:entries="@array/fonts"
+            app:entryValues="@array/fonts"
+            app:key="picture_text_font2"
+            app:title="@string/pref_footer_font2"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:defaultValue="#000000"
+            app:key="picture_text_color"
+            app:title="@string/pref_footer_color"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="center"
+            app:entries="@array/align_entries"
+            app:entryValues="@array/align_values"
+            app:key="picture_text_alignment"
+            app:title="@string/pref_footer_align"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:defaultValue="#FFFFFF"
+            app:key="picture_background_color"
+            app:title="@string/pref_picture_background"
+            app:useSimpleSummaryProvider="true" />
+        <Preference
+            app:key="picture_background_image"
+            app:title="@string/pref_picture_background_image" />
+        <Preference
+            app:key="picture_overlay"
+            app:title="@string/pref_overlay" />
+    </PreferenceCategory>
+
+    <!-- ======================================================= CAMERA -->
+    <PreferenceCategory app:title="@string/cat_camera">
+        <ListPreference
+            app:defaultValue="auto"
+            app:entries="@array/camera_mode_entries"
+            app:entryValues="@array/camera_mode_values"
+            app:key="camera_mode"
+            app:title="@string/pref_camera_mode"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="front"
+            app:entries="@array/lens_entries"
+            app:entryValues="@array/lens_values"
+            app:key="camera_tablet_lens"
+            app:title="@string/pref_tablet_lens"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="0"
+            app:entries="@array/rotation_values"
+            app:entryValues="@array/rotation_values"
+            app:key="camera_rotation"
+            app:title="@string/pref_rotation"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="camera_flip"
+            app:title="@string/pref_flip" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="camera_preview_flip"
+            app:summary="@string/pref_preview_flip_summary"
+            app:title="@string/pref_preview_flip" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="camera_autofocus"
+            app:title="@string/pref_autofocus" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="camera_delete_internal_memory"
+            app:title="@string/pref_delete_internal" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="camera_canon_capture_to_ram"
+            app:summary="@string/pref_canon_ram_summary"
+            app:title="@string/pref_canon_ram" />
+    </PreferenceCategory>
+
+    <!-- ====================================================== PRINTER -->
+    <PreferenceCategory app:title="@string/cat_printer">
+        <ListPreference
+            app:defaultValue="none"
+            app:entries="@array/printer_mode_entries"
+            app:entryValues="@array/printer_mode_values"
+            app:key="printer_mode"
+            app:title="@string/pref_printer_mode"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:defaultValue=""
+            app:key="printer_ipp_url"
+            app:summary="@string/pref_ipp_url_summary"
+            app:title="@string/pref_ipp_url" />
+        <EditTextPreference
+            app:defaultValue=""
+            app:key="printer_ipp_media"
+            app:summary="@string/pref_ipp_media_summary"
+            app:title="@string/pref_ipp_media" />
+        <ListPreference
+            app:defaultValue="10"
+            app:entries="@array/seconds_0_20"
+            app:entryValues="@array/seconds_0_20"
+            app:key="printer_delay"
+            app:title="@string/pref_printer_delay"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="0"
+            app:entries="@array/auto_print_values"
+            app:entryValues="@array/auto_print_values"
+            app:key="printer_auto_print"
+            app:title="@string/pref_auto_print"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:defaultValue="-1"
+            app:key="printer_max_pages"
+            app:title="@string/pref_max_pages"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="3"
+            app:entries="@array/seconds_0_9"
+            app:entryValues="@array/seconds_0_9"
+            app:key="printer_max_duplicates"
+            app:title="@string/pref_max_duplicates"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="1"
+            app:entries="@array/pictures_per_page"
+            app:entryValues="@array/pictures_per_page"
+            app:key="printer_pictures_per_page"
+            app:title="@string/pref_pictures_per_page"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <!-- ===================================================== COUNTERS -->
+    <PreferenceCategory app:title="@string/cat_counters">
+        <Preference
+            app:key="counters_info"
+            app:selectable="false"
+            app:title="@string/pref_counters" />
+        <Preference
+            app:key="counters_reset"
+            app:title="@string/pref_counters_reset" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/cat_controls">
+        <Preference
+            app:selectable="false"
+            app:summary="@string/pref_controls_summary"
+            app:title="@string/pref_controls" />
+        <Preference
+            app:key="about"
+            app:selectable="false"
+            app:title="@string/about" />
+    </PreferenceCategory>
+</PreferenceScreen>

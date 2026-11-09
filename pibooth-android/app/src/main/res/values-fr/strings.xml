@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro">Faire une photo</string>
+    <string name="intro_print">Ou sinon\ntu peux toujours\nimprimer\ncette photo</string>
+    <string name="choose">Choisis ton format</string>
+    <plurals name="n_photos">
+        <item quantity="one">%d photo</item>
+        <item quantity="other">%d photos</item>
+    </plurals>
+    <string name="chosen">C\'est parti !</string>
+    <string name="smile">Souriez !</string>
+    <string name="processing">Préparation du montage</string>
+    <string name="print">Imprimer la photo ?</string>
+    <string name="print_forget">Oublie\ncette photo\ns\'il te plaît</string>
+    <string name="print_button">Imprimer</string>
+    <string name="printing">Impression…</string>
+    <string name="finished">Merci</string>
+    <string name="oops">Oups quelque chose s\'est mal passé</string>
+
+    <string name="status_no_dslr">Aucun appareil USB : branchez un reflex avec un adaptateur OTG</string>
+    <string name="status_usb_permission">En attente de l\'autorisation USB…</string>
+    <string name="status_usb_denied">Accès USB refusé</string>
+    <string name="status_connecting">Connexion à %1$s…</string>
+    <string name="status_no_camera">Aucune caméra disponible</string>
+    <string name="status_camera_opening">Démarrage de la caméra…</string>
+    <string name="status_dslr_detached">Appareil photo débranché</string>
+    <string name="error_dslr">Erreur reflex : %1$s</string>
+    <string name="printer_check_paper">Vérifiez le papier / l\'encre (nombre max de pages atteint)</string>
+    <string name="printer_max_duplicates">Nombre maximum de copies atteint</string>
+    <string name="printer_error">Erreur d\'impression : %1$s</string>
+
+    <string name="settings">Réglages</string>
+    <string name="settings_hint">Appui long pour ouvrir les réglages</string>
+    <string name="settings_pin_prompt">Code des réglages</string>
+    <string name="settings_pin_wrong">Code incorrect</string>
+    <string name="about">À propos</string>
+    <string name="about_summary">pibooth pour Android %1$s — portage de pibooth (licence MIT)</string>
+    <string name="always">Toujours</string>
+    <string name="image_choose">Choisir une image</string>
+    <string name="image_remove">Supprimer</string>
+    <string name="image_none">Aucune</string>
+
+    <string name="cat_general">Général</string>
+    <string name="cat_window">Affichage</string>
+    <string name="cat_picture">Photo</string>
+    <string name="cat_camera">Appareil photo</string>
+    <string name="cat_printer">Imprimante</string>
+    <string name="cat_counters">Compteurs</string>
+    <string name="cat_controls">Commandes</string>
+
+    <string name="pref_directory">Dossier dans Images/</string>
+    <string name="pref_save_raw">Garder les prises brutes</string>
+    <string name="pref_save_raw_summary">Dans le sous-dossier raw/, telles que fournies par l\'appareil</string>
+    <string name="pref_settings_pin">Code des réglages</string>
+    <string name="pref_settings_pin_summary">Code numérique demandé avant d\'ouvrir les réglages (vide = aucun)</string>
+    <string name="pref_quit">Quitter pibooth</string>
+    <string name="pref_window_background">Couleur de fond</string>
+    <string name="pref_window_text_color">Couleur du texte</string>
+    <string name="pref_window_font">Police</string>
+    <string name="pref_flash">Flash à la prise de vue</string>
+    <string name="pref_preview_delay">Durée de l\'aperçu (s)</string>
+    <string name="pref_preview_countdown">Compte à rebours</string>
+    <string name="pref_preview_stop_on_capture">Couper l\'aperçu avant la prise</string>
+    <string name="pref_chosen_delay">Affichage du format choisi (s)</string>
+    <string name="pref_finish_picture_delay">Affichage de la photo finale (s)</string>
+    <string name="pref_wait_picture_delay">Affichage de la photo sur l\'accueil (s)</string>
+    <string name="pref_captures">Nombre de prises (choix)</string>
+    <string name="pref_orientation">Orientation</string>
+    <string name="pref_effect">Effet sur les prises</string>
+    <string name="pref_cropping">Recadrer les prises</string>
+    <string name="pref_margin">Largeur des bordures (px à 600 dpi)</string>
+    <string name="pref_footer1">Titre ({date}, {count} acceptés)</string>
+    <string name="pref_footer2">Sous-titre</string>
+    <string name="pref_footer_font1">Police du titre</string>
+    <string name="pref_footer_font2">Police du sous-titre</string>
+    <string name="pref_footer_color">Couleur des textes</string>
+    <string name="pref_footer_align">Alignement des textes</string>
+    <string name="pref_picture_background">Couleur de fond du montage</string>
+    <string name="pref_picture_background_image">Image de fond du montage</string>
+    <string name="pref_overlay">Calque (PNG avec transparence)</string>
+    <string name="pref_camera_mode">Caméra</string>
+    <string name="pref_tablet_lens">Caméra de la tablette</string>
+    <string name="pref_rotation">Rotation du reflex (°)</string>
+    <string name="pref_flip">Prises en miroir</string>
+    <string name="pref_preview_flip">Aperçu du reflex en miroir</string>
+    <string name="pref_preview_flip_summary">Comme un miroir, plus naturel pour les invités</string>
+    <string name="pref_autofocus">Autofocus au déclenchement</string>
+    <string name="pref_delete_internal">Effacer les photos de l\'appareil après transfert</string>
+    <string name="pref_canon_ram">Canon : prise de vue en RAM</string>
+    <string name="pref_canon_ram_summary">Pas de carte SD nécessaire, plus rapide ; photos conservées seulement sur la tablette</string>
+    <string name="pref_printer_mode">Impression</string>
+    <string name="pref_ipp_url">Adresse IPP de l\'imprimante</string>
+    <string name="pref_ipp_url_summary">ex. ipp://192.168.1.20:631/ipp/print ou ipp://serveur-cups:631/printers/Selphy</string>
+    <string name="pref_ipp_media">Support IPP (optionnel)</string>
+    <string name="pref_ipp_media_summary">ex. na_index-4x6_4x6in (vide = défaut de l\'imprimante)</string>
+    <string name="pref_printer_delay">Durée de l\'écran d\'impression (s, 0 = ignoré)</string>
+    <string name="pref_auto_print">Pages imprimées automatiquement</string>
+    <string name="pref_max_pages">Pages max avant alerte (-1 = infini)</string>
+    <string name="pref_max_duplicates">Copies max d\'une photo</string>
+    <string name="pref_pictures_per_page">Exemplaires par page</string>
+    <string name="pref_counters">Compteurs</string>
+    <string name="pref_counters_reset">Remettre les compteurs à zéro</string>
+    <string name="counters_reset_confirm">Remettre tous les compteurs à zéro ?</string>
+    <string name="pref_controls">Boutons</string>
+    <string name="pref_controls_summary">Écran tactile, ou clavier et télécommandes USB/Bluetooth. Photo : Espace, Entrée, Vol+, ←, télécommande selfie Bluetooth. Impression : P, Vol−, →. Réglages : Échap ou appui long sur l\'engrenage.</string>
+
+    <string name="orientation_auto">Automatique</string>
+    <string name="orientation_portrait">Portrait</string>
+    <string name="orientation_landscape">Paysage</string>
+    <string name="effect_none">Aucun</string>
+    <string name="effect_grayscale">Noir &amp; blanc</string>
+    <string name="effect_sepia">Sépia</string>
+    <string name="effect_vintage">Vintage</string>
+    <string name="effect_invert">Négatif</string>
+    <string name="align_left">Gauche</string>
+    <string name="align_center">Centre</string>
+    <string name="align_right">Droite</string>
+    <string name="camera_mode_auto">Automatique (reflex si branché, sinon tablette)</string>
+    <string name="camera_mode_dslr">Reflex USB uniquement</string>
+    <string name="camera_mode_hybrid">Hybride : aperçu tablette + prise reflex</string>
+    <string name="camera_mode_tablet">Caméra de la tablette uniquement</string>
+    <string name="lens_front">Frontale</string>
+    <string name="lens_back">Arrière</string>
+    <string name="printer_mode_none">Pas d\'imprimante</string>
+    <string name="printer_mode_ipp">Imprimante réseau (IPP, sans dialogue)</string>
+    <string name="printer_mode_android">Service d\'impression Android (dialogue)</string>
+</resources>

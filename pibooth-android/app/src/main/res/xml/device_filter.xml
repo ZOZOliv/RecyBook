@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tout périphérique de classe « Still Image » (PTP) : reflex, hybrides, compacts. -->
+<resources>
+    <usb-device class="6" subclass="1" protocol="1" />
+    <usb-device class="6" />
+</resources>

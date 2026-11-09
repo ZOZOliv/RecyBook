@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="fonts" translatable="false">
+        <item>Amatic-Bold</item>
+        <item>AmaticSC-Regular</item>
+        <item>DancingScript-Bold</item>
+        <item>DancingScript-Regular</item>
+        <item>Roboto-BoldItalic</item>
+        <item>Roboto-LightItalic</item>
+        <item>Monoid-Bold</item>
+        <item>Monoid-Regular</item>
+    </string-array>
+
+    <string-array name="seconds_1_20" translatable="false">
+        <item>1</item><item>2</item><item>3</item><item>4</item><item>5</item>
+        <item>6</item><item>7</item><item>8</item><item>9</item><item>10</item>
+        <item>12</item><item>15</item><item>20</item>
+    </string-array>
+    <string-array name="seconds_0_9" translatable="false">
+        <item>0</item><item>1</item><item>2</item><item>3</item><item>4</item>
+        <item>5</item><item>6</item><item>7</item><item>8</item><item>9</item>
+    </string-array>
+    <string-array name="seconds_0_20" translatable="false">
+        <item>0</item><item>5</item><item>10</item><item>15</item><item>20</item>
+    </string-array>
+    <string-array name="seconds_0_120" translatable="false">
+        <item>0</item><item>3</item><item>5</item><item>10</item><item>15</item>
+        <item>20</item><item>30</item><item>60</item><item>120</item>
+    </string-array>
+    <string-array name="wait_delay_values" translatable="false">
+        <item>-1</item><item>0</item><item>5</item><item>10</item><item>15</item>
+        <item>30</item><item>60</item><item>120</item>
+    </string-array>
+    <string-array name="wait_delay_entries">
+        <item>@string/always</item>
+        <item>0</item><item>5</item><item>10</item><item>15</item>
+        <item>30</item><item>60</item><item>120</item>
+    </string-array>
+
+    <string-array name="captures_values" translatable="false">
+        <item>4,1</item><item>1,4</item><item>1</item><item>2</item><item>3</item><item>4</item>
+        <item>1,2</item><item>2,1</item><item>1,3</item><item>3,1</item>
+        <item>2,3</item><item>3,2</item><item>2,4</item><item>4,2</item><item>3,4</item><item>4,3</item>
+    </string-array>
+    <string-array name="captures_entries" translatable="false">
+        <item>4 | 1</item><item>1 | 4</item><item>1</item><item>2</item><item>3</item><item>4</item>
+        <item>1 | 2</item><item>2 | 1</item><item>1 | 3</item><item>3 | 1</item>
+        <item>2 | 3</item><item>3 | 2</item><item>2 | 4</item><item>4 | 2</item><item>3 | 4</item><item>4 | 3</item>
+    </string-array>
+
+    <string-array name="orientation_values" translatable="false">
+        <item>auto</item><item>portrait</item><item>landscape</item>
+    </string-array>
+    <string-array name="orientation_entries">
+        <item>@string/orientation_auto</item>
+        <item>@string/orientation_portrait</item>
+        <item>@string/orientation_landscape</item>
+    </string-array>
+
+    <string-array name="effect_values" translatable="false">
+        <item>none</item><item>grayscale</item><item>sepia</item><item>vintage</item><item>invert</item>
+    </string-array>
+    <string-array name="effect_entries">
+        <item>@string/effect_none</item>
+        <item>@string/effect_grayscale</item>
+        <item>@string/effect_sepia</item>
+        <item>@string/effect_vintage</item>
+        <item>@string/effect_invert</item>
+    </string-array>
+
+    <string-array name="align_values" translatable="false">
+        <item>left</item><item>center</item><item>right</item>
+    </string-array>
+    <string-array name="align_entries">
+        <item>@string/align_left</item>
+        <item>@string/align_center</item>
+        <item>@string/align_right</item>
+    </string-array>
+
+    <string-array name="camera_mode_values" translatable="false">
+        <item>auto</item><item>dslr</item><item>hybrid</item><item>tablet</item>
+    </string-array>
+    <string-array name="camera_mode_entries">
+        <item>@string/camera_mode_auto</item>
+        <item>@string/camera_mode_dslr</item>
+        <item>@string/camera_mode_hybrid</item>
+        <item>@string/camera_mode_tablet</item>
+    </string-array>
+
+    <string-array name="lens_values" translatable="false">
+        <item>front</item><item>back</item>
+    </string-array>
+    <string-array name="lens_entries">
+        <item>@string/lens_front</item>
+        <item>@string/lens_back</item>
+    </string-array>
+
+    <string-array name="rotation_values" translatable="false">
+        <item>0</item><item>90</item><item>180</item><item>270</item>
+    </string-array>
+
+    <string-array name="printer_mode_values" translatable="false">
+        <item>none</item><item>ipp</item><item>android</item>
+    </string-array>
+    <string-array name="printer_mode_entries">
+        <item>@string/printer_mode_none</item>
+        <item>@string/printer_mode_ipp</item>
+        <item>@string/printer_mode_android</item>
+    </string-array>
+
+    <string-array name="auto_print_values" translatable="false">
+        <item>0</item><item>1</item><item>2</item><item>3</item><item>4</item><item>5</item><item>max</item>
+    </string-array>
+    <string-array name="pictures_per_page" translatable="false">
+        <item>1</item><item>2</item><item>3</item><item>4</item>
+    </string-array>
+</resources>
